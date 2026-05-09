@@ -14,16 +14,33 @@ from abc import ABC, abstractmethod
 
 class Formatter(ABC):
     @abstractmethod
+    def format(self, message: str) -> str:
+        pass
 
 
 class PlainFormatter(Formatter):
-    
-    def format()
+    def format(self, message: str) -> str:
+        return message
 
 
-class JsonFormatter
+class JsonFormatter(Formatter):
+    # Return the message wrapped in JSON: {"log": "message"}
+    def format(self, message: str) -> str:
+        return f'{{"log": "{message}"}}'
 
 
-class Logger
+class Logger:
+    def __init__(self, formatter: Formatter):
+        self._formatter = formatter
 
 
+    def log(self, message: str) -> None:
+        print(self._formatter.format(message))
+
+
+if __name__ == "__main__":
+    plain_logger = Logger(PlainFormatter())
+    plain_logger.log("The server started on port 8080")
+
+    json_logger = Logger(JsonFormatter())
+    json_logger.log("The server started on port 8080")
